@@ -1,11 +1,21 @@
+nodeapp:
+  build: ../app
+  volumes:
+    - ../app:/app
+  ports:
+    - 3000:3000
+  command: node index.js
 nginx:
   image: nginx
   ports:
     - 8080:80
+  links:
+    - nodeapp
   volumes:
     - ./logs/nginx/:/var/log/nginx/
-    - ./public:/usr/share/nginx/html/
-    #- /some/nginx.conf:/etc/nginx/nginx.conf:ro
+    - ../app/public:/usr/share/nginx/html
+    - ./nginx.conf:/etc/nginx/nginx.conf
+    - ./node-app.nginx.conf:/etc/nginx/conf.d/default.conf
 elasticsearch:
   build: elasticsearch
   volumes:
