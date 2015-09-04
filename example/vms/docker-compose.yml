@@ -1,0 +1,28 @@
+nginx:
+  image: nginx
+  ports:
+    - 8080:80
+  volumes:
+    - ./logs/nginx/:/var/log/nginx/
+    - ./public:/usr/share/nginx/html/
+    #- /some/nginx.conf:/etc/nginx/nginx.conf:ro
+elasticsearch:
+  build: elasticsearch
+  volumes:
+    - ./esdata:/usr/share/elasticsearch/data
+  ports:
+    - 9200:9200
+kibana:
+  image: kibana
+  ports:
+    - 5601:5601
+  links:
+    - elasticsearch
+logstash:
+  image: logstash
+  volumes:
+    - .:/config-dir
+    - ./logs:/logs
+  links:
+    - elasticsearch
+  command: logstash -f /config-dir/logstash.conf
