@@ -20,6 +20,7 @@ elasticsearch:
   build: elasticsearch
   volumes:
     - ./esdata:/usr/share/elasticsearch/data
+    - ./elasticsearch.yml:/etc/elasticsearch/elasticsearch.yml
   ports:
     - 9200:9200
 kibana:
