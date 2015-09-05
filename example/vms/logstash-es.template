@@ -1,0 +1,67 @@
+#curl -XDELETE elasticsearch:9200/_template/my_logs
+curl -X PUT -d '{ "template": "logstash-*", "order": 1, "settings": { "number_of_shards": 1 }, "mappings": { "_default_": { "numeric_detection": true, "dynamic_templates": [ { "timestamp": { "match": "*timestamp", "match_mapping_type": "string", "mapping": { "type": "date", "format": "yyyy/MM/dd HH:mm:ss||yyyy/MM/dd||dd/MMM/yyyy:HH:mm:ss Z||basic_date_time||date_time" } } }, { "remove_message": { "match": "message", "mapping": { "type": "string", "store": false, "index": "no" } } }, { "not_analyzed": { "match": "*.raw", "match_mapping_type": "string", "mapping": { "index": "not_analyzed", "ignore_above": 2048, "type": "string" } } } ] } } }' \
+  http://elasticsearch:9200/_template/my_logs
+curl -XGET elasticsearch:9200/_template/my_logs
+
+{
+  "template": "logstash-*",
+  "order": 1,
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "_default_": {
+      "numeric_detection": true,
+      "dynamic_templates": [
+        {
+          "timestamp": {
+            "match": "*timestamp",
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "date",
+              "format": "yyyy/MM/dd HH:mm:ss||yyyy/MM/dd||dd/MMM/yyyy:HH:mm:ss Z||basic_date_time||date_time"
+            }
+          }
+        },
+        {
+          "remove_message": {
+            "match": "message",
+            "mapping": {
+              "type": "string",
+              "store": false,
+              "index": "no"
+            }
+          }
+        },
+        {
+          "not_analyzed": {
+            "match": "*.raw",
+            "match_mapping_type": "string",
+            "mapping": {
+              "index": "not_analyzed",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "CTD" {
+    "transform": {
+        "lang":"groovy",
+        "script":"new SimpleDateFormat(\"yyyy/MM/dd HH:mm:ss\").format(new Date(ctx._source.client_timestamp))"
+      }
+    },
+    "nginx_error" {
+    "transform": {
+        "lang":"groovy",
+        "script":"ctx._source['global_timestamp'] = ctx._source.timestamp"
+      }
+    },
+    "nginx_access" {
+    "transform": {
+        "lang":"groovy",
+        "script":"ctx._source['global_timestamp'] = ctx._source.timestamp"
+      }
+    }
+  }
+}
