@@ -6,8 +6,14 @@
   - In memory cache (memcache, redis)
   - Server side framework
   - Multiple database connections
-- if it moves, track it
 - "mind the gap" (from Coda Hale talk)
+- if it moves, track it
+    - How your servers/apps are behaving
+    - How your users are behaving
+    - metric categories:
+      - Counters
+      - Gauges
+      - Histograms & Timers
 - Why is this related to DevOps
     - Define DevOps
     - Etsy's point on why developers flexibily adding metrics is needed
@@ -31,7 +37,7 @@
 - Google analytics
 - Airbrake
 - AWS CloudWatch
-- The tool hosted on Azure and elasticsearch backed used to track JS erorrs
+- Track:JS
 
 ## ELK
 
@@ -55,7 +61,10 @@
 
 ## Resources
 
-- Metrics Everywhere talk
-- Talk talking about wh nagios is an anchient beast
-- Various Etsy talking about monitoring
-- Blog post on how to use google analytics events to keep track of exceptions
+- [Metrics Everywhere talk](https://www.youtube.com/watch?v=czes-oa0yik)
+- [Talk talking about wh nagios is an anchient beast](https://www.youtube.com/watch?v=Q9BagdHGopg)
+- Various Etsy talking about monitoring:
+  - https://www.youtube.com/watch?v=ZZ3-XjoTQ14&index=1&list=PL_Hu3Hkz4n-9v9S4tu4w-5lHG7P_XiDSu
+  - https://www.youtube.com/watch?v=3nF426i0cBc
+  - https://www.youtube.com/watch?v=dD7ywdG8IEQ
+- [Blog post on how to use google analytics events to keep track of exceptions](analytics.blogspot.com/2013/02/5-things-you-should-be-doing-with.html)
